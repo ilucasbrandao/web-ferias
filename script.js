@@ -24,8 +24,7 @@ form.addEventListener("submit", async (e) => {
   const payload = { salario, diasFerias, abono };
 
   // 👇 ROTA CORRETA
-  const API_URL =
-    "https://api-ferias-production.up.railway.app/calcular-ferias";
+  const API_URL = "https://api-ferias-production.up.railway.app";
 
   try {
     const response = await fetch(API_URL, {
