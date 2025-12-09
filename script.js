@@ -3,7 +3,7 @@ const resultCard = document.getElementById("resultCard");
 const errorAlert = document.getElementById("errorAlert");
 const abonoSection = document.getElementById("abonoSection");
 
-// Formatador de Moeda (BRL)
+// Formatador BRL
 const formatMoney = (value) => {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -14,18 +14,19 @@ const formatMoney = (value) => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // Limpa estados anteriores
   errorAlert.classList.add("d-none");
   resultCard.style.display = "none";
 
-  // Pega os valores
   const salario = Number(document.getElementById("salario").value);
   const diasFerias = Number(document.getElementById("diasFerias").value);
   const abono = Number(document.getElementById("abono").value) || 0;
 
-  // Prepara JSON
   const payload = { salario, diasFerias, abono };
-  const API_URL = "https://api-ferias-chi.vercel.app/";
+
+  // 👇 ROTA CORRETA
+  const API_URL =
+    "https://api-ferias-production.up.railway.app/calcular-ferias";
+
   try {
     const response = await fetch(API_URL, {
       method: "POST",
@@ -39,7 +40,6 @@ form.addEventListener("submit", async (e) => {
       throw new Error(data.error || "Erro ao calcular");
     }
 
-    // Popula os dados na tela
     document.getElementById("resBruto").innerText = formatMoney(
       data.valorBrutoFerias
     );
@@ -49,7 +49,6 @@ form.addEventListener("submit", async (e) => {
       data.valorLiquidoFinal
     );
 
-    // Lógica visual do Abono
     if (data.abono) {
       abonoSection.classList.remove("d-none");
       document.getElementById("resAbono").innerText = formatMoney(
@@ -59,7 +58,6 @@ form.addEventListener("submit", async (e) => {
       abonoSection.classList.add("d-none");
     }
 
-    // Mostra o resultado com animação simples
     resultCard.style.display = "block";
   } catch (error) {
     errorAlert.innerText = error.message;
