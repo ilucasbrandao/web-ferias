@@ -1,0 +1,17 @@
+body {
+    background-color: #f0f2f5;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.money-value {
+    font-weight: bold;
+    color: #198754;
+}
+
+.result-section {
+    display: none;
+}

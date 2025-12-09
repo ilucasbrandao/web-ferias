@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Férias ✈️</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <header class="text-center mb-4">
+                    <h1>🏖️ Minhas Férias</h1>
+                    <p class="text-muted">Simule quanto você vai receber</p>
+                    <p class="text-muted">
+                        <em>Observação: Os cálculos são estimativas e podem variar conforme
+                            a legislação vigente.</em>
+                    </p>
+                </header>
+
+                <section class="card p-4 mb-4">
+                    <form id="calcForm">
+                        <div class="mb-3">
+                            <label for="salario" class="form-label">Salário Bruto (R$)</label>
+                            <input type="number" id="salario" class="form-control" placeholder="Ex: 3000.00" required
+                                step="0.01" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="diasFerias" class="form-label">Dias de Descanso</label>
+                                <input type="number" id="diasFerias" class="form-control" placeholder="30" max="30"
+                                    min="1" required />
+                                <small class="text-muted">Máximo 30 dias</small>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="abono" class="form-label">Abono Pecuniário</label>
+                                <input type="number" id="abono" class="form-control" placeholder="0" max="10" min="0" />
+                                <small class="text-muted">Venda até 10 dias</small>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">
+                            Calcular Agora
+                        </button>
+                    </form>
+                </section>
+
+                <section id="resultCard" class="card p-4 result-section border-success border-top border-4">
+                    <h4 class="text-center mb-4">Resultado da Simulação ⛱</h4>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>(+) Férias Bruto + 1/3:</span>
+                        <span id="resBruto" class="fw-bold">R$ 0,00</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2 text-danger">
+                        <span>(-) INSS (9% estimado):</span>
+                        <span id="resINSS">R$ 0,00</span>
+                    </div>
+
+                    <div id="abonoSection" class="d-none">
+                        <hr />
+                        <div class="d-flex justify-content-between mb-2 text-primary">
+                            <span>(+) Venda de Férias (Abono):</span>
+                            <span id="resAbono">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="h5 mb-0">Líquido a Receber:</span>
+                        <span id="resLiquido" class="h2 money-value mb-0">R$ 0,00</span>
+                    </div>
+                </section>
+
+                <div id="errorAlert" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="text-center py-3 text-muted">
+            &copy; 2024 Calculadora de Férias. Todos os direitos reservados.
+            <p>🧑‍💻 Created by <a href="https://github.com/ilucasbrandao" target="_blank" rel="noopener noreferrer"
+                    style="text-decoration: none;">Lucas
+                    Brandão</a>.</p>
+
+        </div>
+    </footer>
+    <script src="./script.js"></script>
+</body>
+
+</html>
