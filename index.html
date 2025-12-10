@@ -55,24 +55,50 @@
                 <section id="resultCard" class="card p-4 result-section border-success border-top border-4">
                     <h4 class="text-center mb-4">Resultado da Simulação ⛱</h4>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>(+) Férias Bruto + 1/3:</span>
-                        <span id="resBruto" class="fw-bold">R$ 0,00</span>
+                    <h5 class="mt-3">Detalhamento do Cálculo</h5>
+
+                    <!-- Férias -->
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Valor dos Dias de Férias:</span>
+                        <span id="resDias"></span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Adicional 1/3 Constitucional:</span>
+                        <span id="resTerco"></span>
                     </div>
 
-                    <div class="d-flex justify-content-between mb-2 text-danger">
-                        <span>(-) INSS (9% estimado):</span>
-                        <span id="resINSS">R$ 0,00</span>
-                    </div>
-
-                    <div id="abonoSection" class="d-none">
+                    <!-- Abono -->
+                    <div id="abonoSectionDetalhado" class="d-none">
                         <hr />
-                        <div class="d-flex justify-content-between mb-2 text-primary">
-                            <span>(+) Venda de Férias (Abono):</span>
-                            <span id="resAbono">R$ 0,00</span>
+                        <h6>Abono Pecuniário</h6>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Valor do Abono:</span>
+                            <span id="resAbonoValor"></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>1/3 Sobre o Abono:</span>
+                            <span id="resAbonoTerco"></span>
                         </div>
                     </div>
 
+                    <!-- Descontos -->
+                    <hr />
+                    <h6>Descontos</h6>
+
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>INSS Total:</span>
+                        <span id="resINSSDetalhado"></span>
+                    </div>
+
+                    <div id="resINSSFaixas"></div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>IRRF:</span>
+                        <span id="resIRRF"></span>
+                    </div>
+                    <hr />
+
+                    <h5 class="mt-3">Total a Receber</h5>
                     <hr />
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <span class="h5 mb-0">Líquido a Receber:</span>

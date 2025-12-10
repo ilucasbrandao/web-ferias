@@ -39,23 +39,68 @@ form.addEventListener("submit", async (e) => {
       throw new Error(data.error || "Erro ao calcular");
     }
 
+    /* ----------- VALORES BÁSICOS ---------- */
     document.getElementById("resBruto").innerText = formatMoney(
       data.valorBrutoFerias
     );
-    document.getElementById("resINSS").innerText =
-      "- " + formatMoney(data.descontos.impostoINSS);
-    document.getElementById("resLiquido").innerText = formatMoney(
-      data.valorLiquidoFinal
+
+    document.getElementById("resDias").innerText = formatMoney(
+      data.calculo.diasFeriasValor
+    );
+    document.getElementById("resTerco").innerText = formatMoney(
+      data.calculo.valorTerco
     );
 
+    /* ----------- ABONO ---------- */
     if (data.abono) {
       abonoSection.classList.remove("d-none");
+      document
+        .getElementById("abonoSectionDetalhado")
+        .classList.remove("d-none");
+
       document.getElementById("resAbono").innerText = formatMoney(
         data.abono.totalAbono
       );
+      document.getElementById("resAbonoValor").innerText = formatMoney(
+        data.abono.valorAbono
+      );
+      document.getElementById("resAbonoTerco").innerText = formatMoney(
+        data.abono.valorTercoSobreAbono
+      );
     } else {
       abonoSection.classList.add("d-none");
+      document.getElementById("abonoSectionDetalhado").classList.add("d-none");
     }
+
+    /* ----------- DESCONTOS ---------- */
+    document.getElementById("resINSS").innerText =
+      "- " + formatMoney(data.descontos.impostoINSS);
+    document.getElementById("resINSSDetalhado").innerText = formatMoney(
+      data.descontos.impostoINSS
+    );
+
+    document.getElementById("resIRRF").innerText = formatMoney(
+      data.descontos.impostoIRRF
+    );
+
+    /* ----------- FAIXAS DE INSS ---------- */
+    const faixasContainer = document.getElementById("resINSSFaixas");
+    faixasContainer.innerHTML = "";
+
+    data.descontos.faixasINSS.forEach((faixa) => {
+      const linha = document.createElement("div");
+      linha.classList.add("d-flex", "justify-content-between");
+      linha.innerHTML = `
+    <span>${faixa.intervalo} (${(faixa.aliquota * 100).toFixed(1)}%)</span>
+    <span>${formatMoney(faixa.valorDescontado)}</span>
+  `;
+      faixasContainer.appendChild(linha);
+    });
+
+    /* ----------- LÍQUIDO ---------- */
+    document.getElementById("resLiquido").innerText = formatMoney(
+      data.valorLiquidoFinal
+    );
 
     resultCard.style.display = "block";
   } catch (error) {
