@@ -35,9 +35,6 @@ form.addEventListener("submit", async (e) => {
     ? "http://localhost:3000/api"
     : "https://api-ferias-production.up.railway.app/api";
 
-  console.log("Ambiente:", isLocal ? "Local 🏠" : "Produção ☁️");
-  console.log("Conectando em:", API_URL);
-
   try {
     const response = await fetch(API_URL, {
       method: "POST",
