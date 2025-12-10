@@ -18,8 +18,7 @@
                     <h1>🏖️ Minhas Férias</h1>
                     <p class="text-muted">Simule quanto você vai receber</p>
                     <p class="text-muted">
-                        <em>Observação: Os cálculos são estimativas e podem variar conforme
-                            a legislação vigente.</em>
+                        <em>Observação: Os cálculos são estimativas e podem variar conforme a legislação vigente.</em>
                     </p>
                 </header>
 
@@ -52,10 +51,17 @@
                     </form>
                 </section>
 
-                <section id="resultCard" class="card p-4 result-section border-success border-top border-4">
+                <section id="resultCard" class="card p-4 result-section border-success border-top border-4"
+                    style="display:none;">
                     <h4 class="text-center mb-4">Resultado da Simulação ⛱</h4>
 
                     <h5 class="mt-3">Detalhamento do Cálculo</h5>
+
+                    <!-- Valor Bruto -->
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Valor Bruto das Férias:</span>
+                        <span id="resBruto">R$ 0,00</span>
+                    </div>
 
                     <!-- Férias -->
                     <div class="d-flex justify-content-between mb-1">
@@ -96,6 +102,7 @@
                         <span>IRRF:</span>
                         <span id="resIRRF"></span>
                     </div>
+
                     <hr />
 
                     <h5 class="mt-3">Total a Receber</h5>
@@ -110,15 +117,14 @@
             </div>
         </div>
     </main>
+
     <footer>
         <div class="text-center py-3 text-muted">
             &copy; 2024 Calculadora de Férias. Todos os direitos reservados.
-            <p>🧑‍💻 Created by <a href="https://github.com/ilucasbrandao" target="_blank" rel="noopener noreferrer"
-                    style="text-decoration: none;">Lucas
-                    Brandão</a>.</p>
-
+            <p>🧑‍💻 Created by <a href="https://github.com/ilucasbrandao" target="_blank">Lucas Brandão</a>.</p>
         </div>
     </footer>
+
     <script src="./script.js"></script>
 </body>
 

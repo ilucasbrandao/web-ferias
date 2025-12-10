@@ -1,7 +1,7 @@
 const form = document.getElementById("calcForm");
 const resultCard = document.getElementById("resultCard");
 const errorAlert = document.getElementById("errorAlert");
-const abonoSection = document.getElementById("abonoSection");
+const abonoSection = document.getElementById("abonoSectionDetalhado");
 
 // Formatador BRL
 const formatMoney = (value) => {
