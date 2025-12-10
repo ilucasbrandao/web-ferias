@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora de Férias ✈️</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+
 </head>
 
 <body>
@@ -17,12 +17,9 @@
                 <header class="text-center mb-4">
                     <h1>🏖️ Minhas Férias</h1>
                     <p class="text-muted">Simule quanto você vai receber</p>
-                    <p class="text-muted">
-                        <em>Observação: Os cálculos são estimativas e podem variar conforme a legislação vigente.</em>
-                    </p>
                 </header>
 
-                <section class="card p-4 mb-4">
+                <section class="card p-4 mb-4 shadow-sm border-0">
                     <form id="calcForm">
                         <div class="mb-3">
                             <label for="salario" class="form-label">Salário Bruto (R$)</label>
@@ -35,79 +32,66 @@
                                 <label for="diasFerias" class="form-label">Dias de Descanso</label>
                                 <input type="number" id="diasFerias" class="form-control" placeholder="30" max="30"
                                     min="1" required />
-                                <small class="text-muted">Máximo 30 dias</small>
                             </div>
 
                             <div class="col-6 mb-3">
-                                <label for="abono" class="form-label">Abono Pecuniário</label>
+                                <label for="abono" class="form-label">Abono (Venda)</label>
                                 <input type="number" id="abono" class="form-control" placeholder="0" max="10" min="0" />
-                                <small class="text-muted">Venda até 10 dias</small>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 btn-lg">
-                            Calcular Agora
-                        </button>
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">Calcular Agora</button>
                     </form>
                 </section>
 
-                <section id="resultCard" class="card p-4 result-section border-success border-top border-4"
-                    style="display:none;">
-                    <h4 class="text-center mb-4">Resultado da Simulação ⛱</h4>
+                <section id="resultCard" class="card p-4 result-section border-success border-top border-4 shadow-sm">
+                    <h4 class="text-center mb-4">Resultado da Simulação</h4>
 
-                    <h5 class="mt-3">Detalhamento do Cálculo</h5>
+                    <h6 class="text-muted text-uppercase small ls-1">Férias (Dias de Gozo)</h6>
 
-                    <!-- Valor Bruto -->
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Valor Bruto das Férias:</span>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Valor dos Dias:</span>
+                        <span id="resDias">R$ 0,00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Adicional 1/3:</span>
+                        <span id="resTerco">R$ 0,00</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 fw-bold border-top pt-1">
+                        <span>Total Bruto Férias:</span>
                         <span id="resBruto">R$ 0,00</span>
                     </div>
 
-                    <!-- Férias -->
-                    <div class="d-flex justify-content-between mb-1">
-                        <span>Valor dos Dias de Férias:</span>
-                        <span id="resDias"></span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Adicional 1/3 Constitucional:</span>
-                        <span id="resTerco"></span>
-                    </div>
-
-                    <!-- Abono -->
                     <div id="abonoSectionDetalhado" class="d-none">
-                        <hr />
-                        <h6>Abono Pecuniário</h6>
+                        <h6 class="text-primary text-uppercase small ls-1 mt-3">Abono Pecuniário (Venda)</h6>
                         <div class="d-flex justify-content-between mb-1">
-                            <span>Valor do Abono:</span>
-                            <span id="resAbonoValor"></span>
+                            <span>Valor da Venda:</span>
+                            <span id="resAbonoValor">R$ 0,00</span>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>1/3 Sobre o Abono:</span>
-                            <span id="resAbonoTerco"></span>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>1/3 do Abono:</span>
+                            <span id="resAbonoTerco">R$ 0,00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 fw-bold text-primary border-top pt-1">
+                            <span>Total Abono (Sem INSS):</span>
+                            <span id="resAbonoTotal">R$ 0,00</span>
                         </div>
                     </div>
 
-                    <!-- Descontos -->
-                    <hr />
-                    <h6>Descontos</h6>
+                    <h6 class="text-danger text-uppercase small ls-1 mt-3">Descontos</h6>
 
                     <div class="d-flex justify-content-between mb-1">
-                        <span>INSS Total:</span>
-                        <span id="resINSSDetalhado"></span>
+                        <span>INSS:</span>
+                        <span id="resINSS" class="text-danger">R$ 0,00</span>
                     </div>
-
-                    <div id="resINSSFaixas"></div>
-
                     <div class="d-flex justify-content-between mb-3">
                         <span>IRRF:</span>
-                        <span id="resIRRF"></span>
+                        <span id="resIRRF" class="text-danger">R$ 0,00</span>
                     </div>
 
                     <hr />
 
-                    <h5 class="mt-3">Total a Receber</h5>
-                    <hr />
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-3 bg-light rounded">
                         <span class="h5 mb-0">Líquido a Receber:</span>
                         <span id="resLiquido" class="h2 money-value mb-0">R$ 0,00</span>
                     </div>
@@ -117,13 +101,6 @@
             </div>
         </div>
     </main>
-
-    <footer>
-        <div class="text-center py-3 text-muted">
-            &copy; 2024 Calculadora de Férias. Todos os direitos reservados.
-            <p>🧑‍💻 Created by <a href="https://github.com/ilucasbrandao" target="_blank">Lucas Brandão</a>.</p>
-        </div>
-    </footer>
 
     <script src="./script.js"></script>
 </body>

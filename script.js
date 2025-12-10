@@ -14,17 +14,29 @@ const formatMoney = (value) => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  // Limpa estados
   errorAlert.classList.add("d-none");
   resultCard.style.display = "none";
 
+  // Captura inputs
   const salario = Number(document.getElementById("salario").value);
   const diasFerias = Number(document.getElementById("diasFerias").value);
   const abono = Number(document.getElementById("abono").value) || 0;
 
   const payload = { salario, diasFerias, abono };
 
-  // ROTA
-  const API_URL = "https://api-ferias-production.up.railway.app/api";
+  // Detecta se está rodando no seu PC (localhost ou 127.0.0.1)
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  // Se for local, usa a porta 3000 do seu PC. Se não, usa a Railway.
+  const API_URL = isLocal
+    ? "http://localhost:3000/api"
+    : "https://api-ferias-production.up.railway.app/api";
+
+  console.log("Ambiente:", isLocal ? "Local 🏠" : "Produção ☁️");
+  console.log("Conectando em:", API_URL);
 
   try {
     const response = await fetch(API_URL, {
@@ -39,72 +51,55 @@ form.addEventListener("submit", async (e) => {
       throw new Error(data.error || "Erro ao calcular");
     }
 
-    /* ----------- VALORES BÁSICOS ---------- */
+    // --- CÁLCULOS VISUAIS NO FRONTEND (Já que a API não manda separado) ---
+    // Recalcula a proporção apenas para exibir bonitinho
+    const valorDiasCalculado = (salario / 30) * diasFerias;
+    const valorTercoCalculado = valorDiasCalculado / 3;
+
+    // Preenche Férias
     document.getElementById("resBruto").innerText = formatMoney(
       data.valorBrutoFerias
     );
+    document.getElementById("resDias").innerText =
+      formatMoney(valorDiasCalculado);
+    document.getElementById("resTerco").innerText =
+      formatMoney(valorTercoCalculado);
 
-    document.getElementById("resDias").innerText = formatMoney(
-      data.calculo.diasFeriasValor
-    );
-    document.getElementById("resTerco").innerText = formatMoney(
-      data.calculo.valorTerco
-    );
-
-    /* ----------- ABONO ---------- */
+    // --- ABONO ---
     if (data.abono) {
       abonoSection.classList.remove("d-none");
-      document
-        .getElementById("abonoSectionDetalhado")
-        .classList.remove("d-none");
-
-      document.getElementById("resAbono").innerText = formatMoney(
+      // Mapeando as chaves exatas que seu backend retorna
+      document.getElementById("resAbonoTotal").innerText = formatMoney(
         data.abono.totalAbono
       );
       document.getElementById("resAbonoValor").innerText = formatMoney(
         data.abono.valorAbono
       );
+      // Backend manda 'tercoConstitucionalAbono', Frontend exibe aqui
       document.getElementById("resAbonoTerco").innerText = formatMoney(
-        data.abono.valorTercoSobreAbono
+        data.abono.tercoConstitucionalAbono
       );
     } else {
       abonoSection.classList.add("d-none");
-      document.getElementById("abonoSectionDetalhado").classList.add("d-none");
     }
 
-    /* ----------- DESCONTOS ---------- */
+    // --- DESCONTOS ---
     document.getElementById("resINSS").innerText =
       "- " + formatMoney(data.descontos.impostoINSS);
-    document.getElementById("resINSSDetalhado").innerText = formatMoney(
-      data.descontos.impostoINSS
-    );
+    // Backend manda 'impostoIRPF' (com P), ajustamos aqui
+    document.getElementById("resIRRF").innerText =
+      "- " + formatMoney(data.descontos.impostoIRPF);
 
-    document.getElementById("resIRRF").innerText = formatMoney(
-      data.descontos.impostoIRRF
-    );
-
-    /* ----------- FAIXAS DE INSS ---------- */
-    const faixasContainer = document.getElementById("resINSSFaixas");
-    faixasContainer.innerHTML = "";
-
-    data.descontos.faixasINSS.forEach((faixa) => {
-      const linha = document.createElement("div");
-      linha.classList.add("d-flex", "justify-content-between");
-      linha.innerHTML = `
-    <span>${faixa.intervalo} (${(faixa.aliquota * 100).toFixed(1)}%)</span>
-    <span>${formatMoney(faixa.valorDescontado)}</span>
-  `;
-      faixasContainer.appendChild(linha);
-    });
-
-    /* ----------- LÍQUIDO ---------- */
+    // --- LÍQUIDO FINAL ---
     document.getElementById("resLiquido").innerText = formatMoney(
       data.valorLiquidoFinal
     );
 
+    // Exibe resultado
     resultCard.style.display = "block";
   } catch (error) {
-    errorAlert.innerText = error.message;
+    console.error(error);
+    errorAlert.innerText = "Erro: " + error.message;
     errorAlert.classList.remove("d-none");
   }
 });
